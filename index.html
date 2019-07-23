@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+    <style type="text/css">
+        body {
+            background-color:#ccc;
+        }   
+        .panel-title {
+            display:inline;
+        }
+        tr td:first-child {
+            font-weight: bold;
+            width: 100px;
+        }
+        .scollDiv {
+            height: 150px;
+            overflow-y: scroll;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .bg-red {
+            background-color: #de4d39;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <h6 class="panel-title">Online list</h6>
+                        </div>
+                        <div class="panel-body">
+                            <ul id="listOnline" class="list-group">
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <button class="btn btn-danger" id="btnLogout">Log out</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                <i class="glyphicon glyphicon-user"></i>
+                                <h6 class="panel-title">Chat all</h6>
+                                <div class="btn-group btn-group-xs pull-right">
+                                    Hello, <span id="txtName"></span>
+                                </div>
+                                </div>
+                                <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12 scollDiv" id="scollDiv">
+                                        <table class="table table-hover" id="messageContainer">
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="panel-footer">
+                                <form>
+                                    <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="txtText" placeholder="Type your message here ..">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="submit" id="btnSend">Send</button>
+                                    </span>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="chat_box" class="col-md-12" style="display: none">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                <i class="glyphicon glyphicon-user"></i>
+                                <h6 id="chat_box_title" class="panel-title"></h6>
+                                <div class="btn-group btn-group-xs pull-right">
+                                    <span><i class="glyphicon glyphicon-remove"></i></span>
+                                </div>
+                                </div>
+                                <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12 scollDiv" id="scollDiv1">
+                                    <table class="table table-hover" id="messageContainer1">
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="panel-footer">
+                                <form>
+                                    <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-pencil"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="txtText1" placeholder="Type your message here ..">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="submit" id="btnSend1">Send</button>
+                                    </span>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src='https://cdn.firebase.com/js/client/2.4.2/firebase.js'></script>
+<script>
+    $(document).ready(function () {
+
+        var userInfo = {};
+        var rootRef = new Firebase('https://testchat9999.firebaseio.com');
+        var messagesRef = new Firebase('https://testchat9999.firebaseio.com/messages');
+        var usersRef = new Firebase('https://testchat9999.firebaseio.com/users');
+        var userKey = localStorage.getItem('userKey');
+        var userLoginRef = new Firebase('https://testchat9999.firebaseio.com/users/' + userKey);
+        if(userKey === null || userKey === undefined) {
+            window.location = "login.html";
+        }
+
+        var addMessage = function(message) {
+            var html = '<tr>' + 
+                        '<td><i class="glyphicon glyphicon-user"></i> ' + message.name + ': </td>' + 
+                        '<td>' + message.text + '</td>' + 
+                        '</tr>';
+                    $('#messageContainer tbody').append(html);
+                    $('#scollDiv').animate({
+                        scrollTop: $('#scollDiv')[0].scrollHeight
+                    }, 0);
+                
+        }
+
+        var addMessage1 = function(message) {
+            var html = '<tr>' + 
+                        '<td><i class="glyphicon glyphicon-user"></i> ' + message.name + ': </td>' + 
+                        '<td>' + message.text + '</td>' + 
+                        '</tr>';
+                    $('#messageContainer1 tbody').append(html);
+                    $('#scollDiv1').animate({
+                        scrollTop: $('#scollDiv1')[0].scrollHeight
+                    }, 0);
+                
+        }
+
+        var addOnline = function(user) {
+            $('#listOnline').append('<li class="list-group-item"><a href="javascript:void(0)" class="user_online" data-key="' +  user.key + '">' + user.username + '</a><span class="badge bg-red">' + user.count + '</span></li>');
+        }
+
+        var getNotSeenMsg = function() {
+            
+        }
+
+        userLoginRef.on("value", function(snapshot) {
+            userInfo = snapshot.val();
+            $('#txtName').text(userInfo.username);
+        });
+
+        
+        $('#btnLogout').on('click', function(e) {
+            userInfo.online = false;
+            usersRef.child(userKey).set(userInfo);
+            localStorage.removeItem('userKey');
+            window.location = "login.html";
+        });
+
+        $('#btnSend').on('click', function (e) {
+            var send = [];
+            var message = {
+                text: $('#txtText').val(),
+                name: userInfo.username
+            }
+            send.push(message);
+            messagesRef.push(message);
+            return false;
+        });
+
+        $('#btnSend1').on('click', function (e) {
+            var email = $(this).attr('data-email');
+            var send = [];
+            var message = {
+                text: $('#txtText1').val(),
+                name: userInfo.username,
+                to: email
+            }
+            send.push(message);
+            messagesRef.push(message);
+            return false;
+        });
+
+        $(document).on('click', '.user_online', function (e) {
+            var key = $(this).attr('data-key');
+            var userOnlineRef = new Firebase('https://testchat9999.firebaseio.com/users/' + key);
+            userOnlineRef.on("value", function(snapshot) {
+                var ss = (snapshot.val());
+                $('#chat_box').show();
+                $('#chat_box_title').html('To: ' + ss.email);
+                $('#btnSend1').attr('data-key', key);
+            });
+            
+        });
+
+        messagesRef.on("value", function(snapshot) {
+            var snapshot = snapshot.val();
+            if(snapshot !== null) {
+                var keys = Object.keys(snapshot);
+                if(keys.length) {
+                    $('#messageContainer tbody').html('');
+                    for(var i in keys) {
+                        var message = snapshot[keys[i]];
+                        if(!message.hasOwnProperty('to')) {
+                            addMessage(message);
+                        } else {
+                            addMessage1(message);
+                        }
+                        
+                    }
+                }
+            }
+            
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+
+        usersRef.on("value", function(snapshot) {
+            var snapshot = snapshot.val();
+
+            if(snapshot !== null) {
+                var keys = Object.keys(snapshot);
+                if(keys.length) {
+                    $('#listOnline').html('');
+                    for(var i in keys) {
+                        var user = snapshot[keys[i]];
+                        if(user.online && user.username !== userInfo.username) {
+                            user.key = keys[i];
+                            addOnline(user);
+                        }
+                    }
+                }
+            }
+            
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+    });
+</script>
+</html>
