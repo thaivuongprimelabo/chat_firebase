@@ -1,0 +1,17 @@
+{
+  "hosting": {
+	"headers": [{
+		"source" : "**/*.html",
+		"headers" : [{
+			"key": "Cache-Control",
+			"value": "max-age=0, no-cache"
+		}]
+	}],
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

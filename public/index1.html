@@ -114,11 +114,12 @@
     $(document).ready(function () {
 
         var userInfo = {};
-        var rootRef = new Firebase('https://testfirebase9999.firebaseio.com');
-        var messagesRef = new Firebase('https://testfirebase9999.firebaseio.com/messages');
-        var usersRef = new Firebase('https://testfirebase9999.firebaseio.com/users');
+        var databaseUrl = 'https://testfirebase9999.firebaseio.com';
+        var rootRef = new Firebase(databaseUrl);
+        var messagesRef = new Firebase(databaseUrl + '/messages');
+        var usersRef = new Firebase(databaseUrl + '/users');
         var userKey = localStorage.getItem('userKey');
-        var userLoginRef = new Firebase('https://testfirebase9999.firebaseio.com/users/' + userKey);
+        var userLoginRef = new Firebase(databaseUrl + '/users/' + userKey);
 
         var addMessage = function(message) {
             var html = '<tr>' + 

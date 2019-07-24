@@ -88,6 +88,10 @@
                 for(var i in keys) {
                     var usr = userList[keys[i]];
                     if(usr.email === user.email && usr.password === user.password) {
+                        if(usr.online) {
+                            alert('Your account is logging!');
+                            return false;
+                        }
                         usr.online = true;
                         var key = keys[i];
                         usersRef.child(key).set(usr);
@@ -97,8 +101,8 @@
                     }
                 }
             }
-            alert('Username or password not valid!')
           }
+          alert('Username or password not valid!')
           return false;
         })
 

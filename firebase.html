@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src='https://cdn.firebase.com/js/client/2.4.2/firebase.js'></script>
+    
+</head>
+<body>
+    
+    <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+    
+
+    <script>
+        var config = {
+            apiKey: "AIzaSyBF6T-HeFPb1cLfq-jFfIpj2So7RbwViGo",
+            authDomain: "testfirebase9999.firebaseapp.com",
+            databaseURL: "https://testfirebase9999.firebaseio.com",
+            storageBucket: "testfirebase9999.appspot.com"
+        };
+
+        firebase.initializeApp(config);
+
+        // Get a reference to the database service
+        var database = firebase.database();
+
+        firebase.database().ref('messages').on('value', function(snapshop) {
+            document.write(JSON.stringify(snapshop.val())); 
+        });
+    </script>
+</body>
+</html>
